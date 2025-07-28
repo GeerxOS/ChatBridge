@@ -52,7 +52,7 @@ client.on('messageCreate', (msg) => {
         }
 
         if (!commandMessage) {
-            msg.reply(`Uso correcto: \`${config.botPrefix}say <mensaje>\``);
+            msg.reply(`Uso correcto: ${config.botPrefix}say <user> <msg>`);
             return;
         }
 
@@ -93,7 +93,7 @@ client.login(config.discordBotToken);
 
 function sendToDiscord(username, playeruuid, message){
     if (!discordChannel){
-        logging("[!] Canal de Discord aún no cargado.");
+        logging("[!] Canal de Discord no cargado");
         return;
     }
 
