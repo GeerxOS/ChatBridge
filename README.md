@@ -21,7 +21,3 @@ Testeado en servidores anarquicos
     "livechat_console": true // Cambialo a "false" si no quieres que se muestren mensajes del juego en la terminal
 }
 ```
-
-
-https://github.com/user-attachments/assets/301c0b9a-a30c-49a6-95f0-f90a8d3440bb
-
