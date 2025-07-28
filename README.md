@@ -6,8 +6,8 @@ Testeado en servidores anarquicos
 
 ```json
 {
-    "botName": "ChatBridge", // Cambialo por el nombre que quieras
-    "botPassword": "null", // Contraseña del bot
+    "botName": "", // Cambialo por el nombre que quieras
+    "botPassword": "", // Contraseña del bot
     "logingMessage": "", // Mensaje que te aparece en el servidor al momento de querer loguearte
     "server": {
         "host": "", // IP del servidor
