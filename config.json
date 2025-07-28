@@ -1,0 +1,15 @@
+{
+    "botName": "ChatBridgeByGerx",
+    "botPassword": "null",
+    "logingMessage": "asdasdasd",
+    "server": {
+        "host": "localhost",
+        "port": "25565",
+        "auth": "offline"
+    },
+    "botPrefix": ".",
+    "botOwner": "Gerx_IV",
+    "discordChannelId": "1399105705256026228",
+    "discordBotToken": "MTM5OTE3NTQ2ODIwNDQyNTMzNw.GbROvd._EeOVE8l0BrJ0fnZhmQ0Q4Hee9CmL0iezKRc4s",
+    "livechat_console": false
+}

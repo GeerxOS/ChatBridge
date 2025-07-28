@@ -1,0 +1,16 @@
+{
+  "name": "chatbridge",
+  "version": "1.0.0",
+  "description": "chatbridge for minecraft servers (anarchy servers)",
+  "license": "ISC",
+  "author": "gerxiv",
+  "type": "commonjs",
+  "main": "bot.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "discord.js": "^14.21.0",
+    "mineflayer": "^4.30.0"
+  }
+}
