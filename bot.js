@@ -1,7 +1,7 @@
 const mineflayer = require("mineflayer")
 const config = require("./config.json")
 const logging = require("./util/logging");
-const { setupDiscordBot, sendToDiscord } = require("./util/chathook");
+const { setupDiscordBot, sendInGameMessages } = require("./util/chathook");
 
 const banner = `
  _______  __   __  _______  _______  _______  ______    ___   ______   _______  _______ 
