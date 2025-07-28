@@ -1,4 +1,4 @@
-const { Client, GatewayIntentBits, EmbedBuilder } = require('discord.js');
+const { Client, GatewayIntentBits, EmbedBuilder, Embed } = require('discord.js');
 const config = require("../config.json");
 const logging = require("./logging");
 
@@ -21,7 +21,7 @@ client.once('ready', async () => {
         || await client.channels.fetch(config.discordChannelId).catch(() => null);
 
     if (!discordChannel){
-        logging(`[Discord] No se encontró el canal: ${config.discordChannelId}`);
+        logging(`[Discord] No se encontro el canal: ${config.discordChannelId}`);
     } else {
         discordReadyResolve();
     }
@@ -52,7 +52,7 @@ client.on('messageCreate', (msg) => {
         }
 
         if (!commandMessage) {
-            msg.reply(`Uso correcto: ${config.botPrefix}say <user> <msg>`);
+            msg.reply(`Uso correcto: \`${config.botPrefix}say <mensaje>\``);
             return;
         }
 
@@ -90,21 +90,42 @@ client.on('messageCreate', (msg) => {
 
 client.login(config.discordBotToken);
 
-
-function sendToDiscord(username, playeruuid, message){
+function sendInGameMessages(username, playeruuid, message){
     if (!discordChannel){
-        logging("[!] Canal de Discord no cargado");
+        logging("[!] Canal de Discord aun no cargado.");
         return;
     }
 
-    const msgEmbed = new EmbedBuilder()
-        .setColor('Green')
-        .setTitle(username)
-        .setThumbnail(`https://render.skinmc.net/3d.php?user=${playeruuid}&vr=-10&hr0&hrh=25&aa=&headOnly=true&ratio=50`)
-        .setDescription(message)
+    const inGameMessages = new EmbedBuilder()
+        .setColor('White')
+        .setAuthor({ name: username, iconURL: `https://render.skinmc.net/3d.php?user=${playeruuid}&vr=-10&hr0&hrh=25&aa=&headOnly=true&ratio=50`})
+        //.setThumbnail(`https://render.skinmc.net/3d.php?user=${playeruuid}&vr=-10&hr0&hrh=25&aa=&headOnly=true&ratio=50`)
+        .setDescription(`<${username}> ${message}`)
         .setTimestamp();
 
-    discordChannel.send({ embeds: [msgEmbed] });
+    discordChannel.send({ embeds: [inGameMessages] });
+}
+
+function playerJoinedMessages(username, playeruuid) {
+    const playerJoinedEmbed = new EmbedBuilder()
+        .setColor('Green')
+        .setAuthor({ name: username, iconURL: `https://render.skinmc.net/3d.php?user=${playeruuid}&vr=-10&hr0&hrh=25&aa=&headOnly=true&ratio=50`})
+        .setDescription(`${username} a entrado al servidor.`)
+        //.setThumbnail(`https://render.skinmc.net/3d.php?user=${playeruuid}&vr=-10&hr0&hrh=25&aa=&headOnly=true&ratio=50`)
+        .setTimestamp();
+    
+    discordChannel.send({ embeds: [playerJoinedEmbed] });
+}
+
+function playerLeftMessages(username, playeruuid) {
+    const playerLeftEmbed = new EmbedBuilder()
+        .setColor('Red')
+        .setAuthor({ name: username, iconURL: `https://render.skinmc.net/3d.php?user=${playeruuid}&vr=-10&hr0&hrh=25&aa=&headOnly=true&ratio=50`})
+        .setDescription(`${username} a salido del servidor.`)
+        //.setThumbnail(`https://render.skinmc.net/3d.php?user=${playeruuid}&vr=-10&hr0&hrh=25&aa=&headOnly=true&ratio=50`)
+        .setTimestamp();
+    
+    discordChannel.send({ embeds: [playerLeftEmbed] });
 }
 
 function setMinecraftBot(botInstance){
@@ -112,10 +133,11 @@ function setMinecraftBot(botInstance){
 }
 
 module.exports = {
-    sendToDiscord,
     setMinecraftBot,
     setupDiscordBot: {
-        sendToDiscord,
+        sendInGameMessages,
+        playerJoinedMessages,
+        playerLeftMessages,
         setMinecraftBot,
         onDiscordReady
     }
