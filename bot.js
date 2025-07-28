@@ -1,7 +1,7 @@
 const mineflayer = require("mineflayer")
 const config = require("./config.json")
 const logging = require("./util/logging");
-const { setupDiscordBot } = require("./util/chathook");
+const { setupDiscordBot, sendToDiscord } = require("./util/chathook");
 
 const banner = `
  _______  __   __  _______  _______  _______  ______    ___   ______   _______  _______ 
@@ -31,18 +31,20 @@ bot.on('chat', (username, message) => {
     logging(`<${username}> ${message}`)
   }
 
+  if (message === config.logingMessage){
+    bot.chat(`/login ${config.botPassword}`)
+  }
   const player = bot.players[username];
   const player_uuid = player?.uuid || 'null';
-  setupDiscordBot.sendToDiscord(username, player_uuid, message)
-
+  setupDiscordBot.sendInGameMessages(username, player_uuid, message)
+  
 });
 
 bot.once('spawn', async () => {
   logging(banner)
-  bot.chat(`/login ${config.botPassword}`)
   logging(`El bot se a conectado al server: ${config.server.host}:${config.server.port}`)
   await setupDiscordBot.onDiscordReady;
-  setupDiscordBot.sendToDiscord(config.botName, '9a5d1cd9-9ea5-4e7d-a440-a1d795de0997', `[+] El bot a entrado al servidor: ${config.server.host}:${config.server.port} [+]`)
+  setupDiscordBot.sendInGameMessages(config.botName, '9a5d1cd9-9ea5-4e7d-a440-a1d795de0997', `El bot a entrado al servidor: ${config.server.host}:${config.server.port}`)
 
     setInterval(() => {
     if (currentDirection) bot.setControlState(currentDirection, false)
@@ -70,6 +72,16 @@ bot.once('spawn', async () => {
 
 bot.once('end', () => {
     logging(`El bot a salido del servidor: ${config.server.host}:${config.server.port}`)
-    setupDiscordBot.sendToDiscord(config.botName, '9a5d1cd9-9ea5-4e7d-a440-a1d795de0997', `[X] El bot a salido del servidor: ${config.server.host}:${config.server.port} [X]`)
-})
+    setupDiscordBot.sendInGameMessages(config.botName, '9a5d1cd9-9ea5-4e7d-a440-a1d795de0997', `El bot a salido del servidor: ${config.server.host}:${config.server.port}`)
+});
+
+//bot.on('playerJoined', (player) => {
+//  setupDiscordBot.playerJoinedMessages(player.username, player.uuid);
+//}); 
+
+//bot.on('playerLeft', (player) => {
+//  setupDiscordBot.playerLeftMessages(player.username, player.uuid);
+//});
+
+
 setupDiscordBot.setMinecraftBot(bot);
