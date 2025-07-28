@@ -4,7 +4,7 @@ Testeado en servidores anarquicos
 
 ## Ejemplo de como configurar el archivo 'config.json':
 
-```js
+```json
 {
     "botName": "ChatBridge", // Cambialo por el nombre que quieras
     "botPassword": "null", // Contraseña del bot
